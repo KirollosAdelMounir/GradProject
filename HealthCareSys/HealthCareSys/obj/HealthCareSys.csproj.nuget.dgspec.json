@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj": {}
+    "E:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj": {}
   },
   "projects": {
-    "G:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj": {
+    "E:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj",
+        "projectUniqueName": "E:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj",
         "projectName": "HealthCareSys",
-        "projectPath": "G:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj",
+        "projectPath": "E:\\GradProject\\HealthCareSys\\HealthCareSys\\HealthCareSys.csproj",
         "packagesPath": "C:\\Users\\kokoe\\.nuget\\packages\\",
-        "outputPath": "G:\\GradProject\\HealthCareSys\\HealthCareSys\\obj\\",
+        "outputPath": "E:\\GradProject\\HealthCareSys\\HealthCareSys\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "F:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\kokoe\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -95,7 +96,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -107,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
