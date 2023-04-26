@@ -14,10 +14,7 @@ namespace HealthCareSysAPI.DBContext
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<DoctorHospital> DoctorHospitals { get; set; }
         public DbSet<Forum> Forums { get; set; }
-        public DbSet<Hospital> Hospitals { get; set; }
-        public DbSet<LabTest> LabTests { get; set; }
         public DbSet<MedicalHistory> MedicalHistories { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)

@@ -1,5 +1,6 @@
 ﻿using HealthCareSysAPI.DBContext;
 using HealthCareSysAPI.Models;
+using HealthCareSysAPI.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -66,24 +67,33 @@ namespace HealthCareSysAPI.Controllers
             return BadRequest(ModelState);
         }
         [HttpPost("Login")]
-        public async Task<ActionResult> Login(HealthCareSysUser model)
+        public async Task<ActionResult> Login([FromBody] LoginSchema model)
         {
-            var user =  _dbContext.Users.FirstOrDefault(x=>x.EmailAddress == model.EmailAddress);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return Unauthorized();
-            }
-            else
-            {
-                if(user.Password!= model.Password)
+                var user = new HealthCareSysUser
                 {
-                    return Unauthorized();
+                    EmailAddress = model.EmailAddress,
+                    Password = model.Password
+                };
+                var confirmUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.EmailAddress == user.EmailAddress);
+                if (confirmUser == null)
+                {
+                    return Unauthorized(new { message = "Email or Password Incorrect" });
                 }
                 else
                 {
-                    return Ok();
+                    if (confirmUser.Password != model.Password)
+                    {
+                        return Unauthorized(new {message = "Email or Password Incorrect"});
+                    }
+                    else
+                    {
+                        return Ok();
+                    }
                 }
             }
+            return Unauthorized();
             
         }
 

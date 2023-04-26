@@ -17,5 +17,8 @@ namespace HealthCareSys.Models
 
         public string PostText { get; set; }
         public DateTime DateOfPost { get; set; }
+        public Specialization Specialization { get; set; }
+        [ForeignKey("SpecID")]
+        public int SpecID { get; set; }
     }
 }

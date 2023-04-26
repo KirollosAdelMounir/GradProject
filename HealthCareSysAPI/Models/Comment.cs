@@ -15,6 +15,7 @@ namespace HealthCareSys.Models
         public int ForumID { get; set; }
         public string CommentText { get; set; }
         public DateTime CommentDate { get; set; }
+        public int CommentRating { get; set; }
 
     }
 }

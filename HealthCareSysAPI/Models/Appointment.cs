@@ -18,5 +18,7 @@ namespace HealthCareSys.Models
         public string DoctorID { get; set; }
         public DateTime AppointmentDate { get; set; }
         public int AppointmentRating { get; set; }
+        public bool IsDone { get; set; }
+
     }
 }

@@ -33,10 +33,19 @@ namespace HealthCareSysAPI.Models
         [Required]
         public TypeOfUser type { get; set; }
 
+        [DataType(DataType.ImageUrl)]
+        public string Image { get; set; }
+        [Required]
+        public BloodType Blood { get; set; }
+        public bool ConfirmEmail { get; set; } = false;
 
         public enum TypeOfUser
         {
             Doctor,Patient,Admin
+        }
+        public enum BloodType
+        {
+            A1,A2,B1,B2,AB1,AB2,O1,O2
         }
     }
 }
