@@ -208,3 +208,5 @@ E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.AspNe
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\BCrypt.Net-Next.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

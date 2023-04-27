@@ -1,10 +1,13 @@
-﻿using HealthCareSysAPI.DBContext;
+﻿using HealthCareSysAPI.Custom_Classes;
+using HealthCareSysAPI.DBContext;
 using HealthCareSysAPI.Models;
 using HealthCareSysAPI.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
+
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -15,7 +18,7 @@ namespace HealthCareSysAPI.Controllers
         private readonly HealthCareSysDBContext _dbContext;
         private readonly UserManager<HealthCareSysUser> _userManager;
         private readonly SignInManager<HealthCareSysUser> _signInManager;
-
+        
         public UsersController(HealthCareSysDBContext dbContext)
         {
             _dbContext = dbContext;
@@ -30,19 +33,24 @@ namespace HealthCareSysAPI.Controllers
       
         public async Task<IActionResult> Register([FromBody] HealthCareSysUser model)
         {
+             
             if (ModelState.IsValid)
             {
+                RandomID random = new RandomID();
                 var user = new HealthCareSysUser
                 {
-                    Id= model.Id,
+                    
+                    Id = random.GenerateRandomId(10) ,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     EmailAddress = model.EmailAddress,
-                    Password = model.Password,
+                    Password = BCrypt.Net.BCrypt.HashPassword( model.Password),
                     DateOfBirth = model.DateOfBirth,
                     PhoneNumber = model.PhoneNumber,
                     Gender = model.Gender,
-                    type = model.type
+                    type = HealthCareSysUser.TypeOfUser.Patient ,
+                    Blood = model.Blood,
+                    Image = "123.jpg"
                 };
 
                 if (string.IsNullOrEmpty(model.Password))
@@ -83,13 +91,15 @@ namespace HealthCareSysAPI.Controllers
                 }
                 else
                 {
-                    if (confirmUser.Password != model.Password)
+                    if (!BCrypt.Net.BCrypt.Verify(user.Password,confirmUser.Password))
                     {
                         return Unauthorized(new {message = "Email or Password Incorrect"});
                     }
                     else
                     {
-                        return Ok();
+                        JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
+                        string token = jwtToken.GenerateJwtToken(confirmUser, confirmUser.Password, 60);
+                        return Ok(token);
                     }
                 }
             }
