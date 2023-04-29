@@ -12,13 +12,13 @@ namespace HealthCareSys.Models
         public HealthCareSysUser User { get; set; }
         [ForeignKey("Id")]
         [NotNull]
-        public string PatientID { get; set; }
+        public string UserId { get; set; }
         public Doctor doctor { get; set; }
         [ForeignKey("DoctorID")]
         public string DoctorID { get; set; }
         public DateTime AppointmentDate { get; set; }
-        public int AppointmentRating { get; set; }
-        public bool IsDone { get; set; }
+        public int AppointmentRating { get; set; } = 0;
+        public bool IsDone { get; set; } = false;
 
     }
 }

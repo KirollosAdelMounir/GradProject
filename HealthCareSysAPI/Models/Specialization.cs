@@ -8,6 +8,6 @@ namespace HealthCareSys.Models
         public int SpecID { get; set; }
         public string SpecializationName { get; set; }
         public string SpecializationDescription { get; set;}
-        public int NumberOfDoctors { get; set; }
+        public int NumberOfDoctors { get; set; } = 0;
     }
 }

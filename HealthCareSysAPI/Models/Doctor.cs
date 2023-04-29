@@ -12,12 +12,12 @@ namespace HealthCareSys.Models
         public string DoctorID { get; set; }
         public HealthCareSysUser User { get; set; }
         [ForeignKey("Id")]
-        [NotNull]
+        [Required]
         public string UserID { get; set; }
         public float AverageRating { get; set; }
         public Specialization specialization { get; set; }
         [ForeignKey("SpecID")]
-        public int SpecID { get; set; }
+        public int specializationSpecID { get; set; }
 
     }
 }

@@ -210,3 +210,8 @@ E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Exten
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\BCrypt.Net-Next.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\MailKit.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\MimeKit.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

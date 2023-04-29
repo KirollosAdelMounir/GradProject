@@ -14,8 +14,8 @@ namespace HealthCareSys.Models
         [ForeignKey("PostID")]
         public int ForumID { get; set; }
         public string CommentText { get; set; }
-        public DateTime CommentDate { get; set; }
-        public int CommentRating { get; set; }
+        public DateTime CommentDate { get; set; } = DateTime.Now;
+        public int CommentRating { get; set; } = 0;
 
     }
 }

@@ -43,18 +43,16 @@ namespace HealthCareSysAPI.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PatientID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+
+                    b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AppointmentID");
 
                     b.HasIndex("DoctorID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PatientID");
 
                     b.ToTable("Appointments");
                 });
