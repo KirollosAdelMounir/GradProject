@@ -9,7 +9,6 @@ namespace HealthCareSys.Models
     public class Doctor
     {
         [Key]
-        [Required]
         public string DoctorID { get; set; }
         public HealthCareSysUser User { get; set; }
         [ForeignKey("Id")]

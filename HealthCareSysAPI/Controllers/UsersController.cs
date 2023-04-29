@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
-
+using HealthCareSys.Models;
+using HealthCareSysAPI.TokenRequest;
+using System.IO;
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -36,7 +38,6 @@ namespace HealthCareSysAPI.Controllers
              
             if (ModelState.IsValid)
             {
-                RandomID random = new RandomID();
                 var user = new HealthCareSysUser
                 {
                     
