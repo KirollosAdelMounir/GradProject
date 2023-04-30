@@ -124,12 +124,6 @@ namespace HealthCareSysAPI.Controllers
                     {
                         return Unauthorized(new { message = "Email or Password Incorrect" });
                     }
-                    else if (user.ConfirmEmail != true)
-                    {
-                        var confirmationLink = GenerateConfirmationLink(confirmUser.Id); // Generate the confirmation link based on the user ID
-                        _emailService.SendConfirmationEmail(confirmUser.EmailAddress, confirmationLink);
-                        return Unauthorized("Confirmation Email Sent ");
-                    }
                     else
                     {                       
                         JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
