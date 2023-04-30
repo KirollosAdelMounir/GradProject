@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HealthCareSysAPI.Migrations
 {
-    public partial class HealthCareMigration : Migration
+    public partial class HealthCareSysMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,7 +97,7 @@ namespace HealthCareSysAPI.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +128,7 @@ namespace HealthCareSysAPI.Migrations
                 {
                     AppointmentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AppointmentRating = table.Column<int>(type: "int", nullable: false),
@@ -147,7 +147,56 @@ namespace HealthCareSysAPI.Migrations
                         name: "FK_Appointments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleTimings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TimeFrom = table.Column<DateTime>(type: "time(7)", nullable: false),
+                    TimeTo = table.Column<DateTime>(type: "time(7)", nullable: false),
+                    day = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleTimings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScheduleTimings_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,13 +219,13 @@ namespace HealthCareSysAPI.Migrations
                         column: x => x.DoctorID,
                         principalTable: "Doctors",
                         principalColumn: "DoctorID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Forums_ForumID",
                         column: x => x.ForumID,
                         principalTable: "Forums",
                         principalColumn: "PostID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -210,9 +259,19 @@ namespace HealthCareSysAPI.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Forums_SpecializationSpecID",
+                name: "IX_Favorites_DoctorID",
+                table: "Favorites",
+                column: "DoctorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_UserID",
+                table: "Favorites",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forums_specializationSpecID",
                 table: "Forums",
-                column: "SpecializationSpecID");
+                column: "specializationSpecID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Forums_UserID",
@@ -223,6 +282,11 @@ namespace HealthCareSysAPI.Migrations
                 name: "IX_MedicalHistories_UserID",
                 table: "MedicalHistories",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleTimings_DoctorID",
+                table: "ScheduleTimings",
+                column: "DoctorID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -234,13 +298,19 @@ namespace HealthCareSysAPI.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Favorites");
+
+            migrationBuilder.DropTable(
                 name: "MedicalHistories");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "ScheduleTimings");
 
             migrationBuilder.DropTable(
                 name: "Forums");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
 
             migrationBuilder.DropTable(
                 name: "Specializations");

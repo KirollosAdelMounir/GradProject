@@ -17,6 +17,10 @@ namespace HealthCareSysAPI.DBContext
         public DbSet<Forum> Forums { get; set; }
         public DbSet<MedicalHistory> MedicalHistories { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
+        public DbSet<ScheduleTiming> ScheduleTimings { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

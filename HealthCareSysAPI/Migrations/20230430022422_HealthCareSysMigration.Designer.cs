@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCareSysAPI.Migrations
 {
     [DbContext(typeof(HealthCareSysDBContext))]
-    [Migration("20230428120358_HealthCareMigration")]
-    partial class HealthCareMigration
+    [Migration("20230430022422_HealthCareSysMigration")]
+    partial class HealthCareSysMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,11 +45,8 @@ namespace HealthCareSysAPI.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PatientID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AppointmentID");
@@ -103,9 +100,6 @@ namespace HealthCareSysAPI.Migrations
                     b.Property<float>("AverageRating")
                         .HasColumnType("real");
 
-                    b.Property<int>("SpecID")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -137,21 +131,18 @@ namespace HealthCareSysAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpecializationSpecID")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("specializationSpecID")
+                        .HasColumnType("int");
+
                     b.HasKey("PostID");
 
-                    b.HasIndex("SpecializationSpecID");
-
                     b.HasIndex("UserID");
+
+                    b.HasIndex("specializationSpecID");
 
                     b.ToTable("Forums");
                 });
@@ -210,6 +201,31 @@ namespace HealthCareSysAPI.Migrations
                     b.ToTable("Specializations");
                 });
 
+            modelBuilder.Entity("HealthCareSysAPI.Models.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DoctorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("HealthCareSysAPI.Models.HealthCareSysUser", b =>
                 {
                     b.Property<string>("Id")
@@ -262,6 +278,34 @@ namespace HealthCareSysAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("HealthCareSysAPI.Models.ScheduleTiming", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DoctorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("TimeFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TimeTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("day")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorID");
+
+                    b.ToTable("ScheduleTimings");
+                });
+
             modelBuilder.Entity("HealthCareSys.Models.Appointment", b =>
                 {
                     b.HasOne("HealthCareSys.Models.Doctor", "doctor")
@@ -272,7 +316,9 @@ namespace HealthCareSysAPI.Migrations
 
                     b.HasOne("HealthCareSysAPI.Models.HealthCareSysUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
 
@@ -319,15 +365,15 @@ namespace HealthCareSysAPI.Migrations
 
             modelBuilder.Entity("HealthCareSys.Models.Forum", b =>
                 {
-                    b.HasOne("HealthCareSys.Models.Specialization", "Specialization")
-                        .WithMany()
-                        .HasForeignKey("SpecializationSpecID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HealthCareSysAPI.Models.HealthCareSysUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthCareSys.Models.Specialization", "Specialization")
+                        .WithMany()
+                        .HasForeignKey("specializationSpecID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -345,6 +391,36 @@ namespace HealthCareSysAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HealthCareSysAPI.Models.Favorite", b =>
+                {
+                    b.HasOne("HealthCareSys.Models.Doctor", "doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthCareSysAPI.Models.HealthCareSysUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("doctor");
+                });
+
+            modelBuilder.Entity("HealthCareSysAPI.Models.ScheduleTiming", b =>
+                {
+                    b.HasOne("HealthCareSys.Models.Doctor", "doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("doctor");
                 });
 #pragma warning restore 612, 618
         }

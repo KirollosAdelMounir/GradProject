@@ -10,7 +10,7 @@ namespace HealthCareSys.Models
         [Key]
         public int AppointmentID { get; set; }
         public HealthCareSysUser User { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("UserId")]
         [NotNull]
         public string UserId { get; set; }
         public Doctor doctor { get; set; }

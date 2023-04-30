@@ -123,7 +123,7 @@ namespace HealthCareSysAPI.Controllers
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, confirmUser.Password))
                     {
                         return Unauthorized(new { message = "Email or Password Incorrect" });
-                    }
+                    } 
                     else
                     {                       
                         JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
@@ -230,7 +230,7 @@ namespace HealthCareSysAPI.Controllers
                 {
                     UserID = newPost.UserID,
                     PostText= newPost.PostText,
-                    SpecID= newPost.SpecID
+                    specializationSpecID = newPost.SpecID
                 };
                 if(post!=null)
                 {
