@@ -139,7 +139,7 @@ namespace HealthCareSysAPI.Controllers
                         {
                             var confirmationLink = GenerateConfirmationLink(confirmUser.Id); // Generate the confirmation link based on the user ID
                             _emailService.SendConfirmationEmail(confirmUser.EmailAddress, confirmationLink);
-
+                            return Ok("Confirmation Email Sent");
                         }
                     }
                 }
