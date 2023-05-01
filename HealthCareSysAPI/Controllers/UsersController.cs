@@ -58,6 +58,8 @@ namespace HealthCareSysAPI.Controllers
                     Blood = model.Blood,
                     Image = "123.jpg"
                 };
+                var existedUser = _dbContext.Users.FirstOrDefault(x=>x.EmailAddress == user.EmailAddress);
+                if (existedUser != null) { return BadRequest("Email existed please enter new email"); }
 
                 if (string.IsNullOrEmpty(model.Password))
                 {
@@ -125,10 +127,20 @@ namespace HealthCareSysAPI.Controllers
                         return Unauthorized(new { message = "Email or Password Incorrect" });
                     } 
                     else
-                    {                       
-                        JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
-                        string token = jwtToken.GenerateJwtToken(confirmUser, confirmUser.Password, 60);
-                        return Ok(token);
+                    {
+                        var confirmedUser = _dbContext.Users.FirstOrDefault(x=>x.Id == confirmUser.Id);
+                        if (confirmedUser != null && confirmedUser.ConfirmEmail == true)
+                        {
+                            JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
+                            string token = jwtToken.GenerateJwtToken(confirmUser, confirmUser.Password, 60);
+                            return Ok(token);
+                        }
+                        else
+                        {
+                            var confirmationLink = GenerateConfirmationLink(confirmUser.Id); // Generate the confirmation link based on the user ID
+                            _emailService.SendConfirmationEmail(confirmUser.EmailAddress, confirmationLink);
+
+                        }
                     }
                 }
             }
