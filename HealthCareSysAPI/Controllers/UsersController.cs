@@ -58,7 +58,7 @@ namespace HealthCareSysAPI.Controllers
                     Blood = model.Blood,
                     Image = "123.jpg"
                 };
-                var existedUser = _dbContext.Users.FirstOrDefault(x=>x.EmailAddress == user.EmailAddress);
+                var existedUser = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == user.EmailAddress);
                 if (existedUser != null) { return BadRequest("Email existed please enter new email"); }
 
                 if (string.IsNullOrEmpty(model.Password))
@@ -90,10 +90,11 @@ namespace HealthCareSysAPI.Controllers
             return $"https://localhost:7036/api/Users/confirmEmail?userId={userId}";
         }
         [HttpGet("confirmEmail")]
-        public IActionResult ConfirmEmail([FromQuery]string userId)
+        public IActionResult ConfirmEmail([FromQuery] string userId)
         {
-            var user = _dbContext.Users.FirstOrDefault(x=>x.Id==userId);
-            if (user != null) {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            if (user != null)
+            {
                 user.ConfirmEmail = true;
                 _dbContext.Users.Update(user);
                 _dbContext.SaveChanges();
@@ -125,10 +126,10 @@ namespace HealthCareSysAPI.Controllers
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, confirmUser.Password))
                     {
                         return Unauthorized(new { message = "Email or Password Incorrect" });
-                    } 
+                    }
                     else
                     {
-                        var confirmedUser = _dbContext.Users.FirstOrDefault(x=>x.Id == confirmUser.Id);
+                        var confirmedUser = _dbContext.Users.FirstOrDefault(x => x.Id == confirmUser.Id);
                         if (confirmedUser != null && confirmedUser.ConfirmEmail == true)
                         {
                             JwtTokenHelperUser jwtToken = new JwtTokenHelperUser();
@@ -241,10 +242,10 @@ namespace HealthCareSysAPI.Controllers
                 var post = new Forum()
                 {
                     UserID = newPost.UserID,
-                    PostText= newPost.PostText,
+                    PostText = newPost.PostText,
                     specializationSpecID = newPost.SpecID
                 };
-                if(post!=null)
+                if (post != null)
                 {
                     _dbContext.Forums.Add(post);
                     _dbContext.SaveChanges();
@@ -254,7 +255,52 @@ namespace HealthCareSysAPI.Controllers
             }
             return BadRequest();
         }
-
+        [HttpPut("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(string userID, string currentpassword, string newPassword)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userID);
+            if (user != null)
+            {
+                if (!BCrypt.Net.BCrypt.Verify(currentpassword, user.Password))
+                {
+                    return Unauthorized(new { message = "Incorrect Password" });
+                }
+                else
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                    _dbContext.Update(user);
+                    _dbContext.SaveChanges();
+                    return Ok("Password Changed Successfully");
+                }
+            }
+            return BadRequest("User Not Found");
+        }
+        [HttpGet("ShowDoctor")]
+        public async Task<IActionResult> ShowDoctor(string doctorId)
+        {
+            var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == doctorId);
+            var doctoruser = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+            var spec = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == doctor.specializationSpecID);
+            return Ok(new { doctor, doctoruser, spec });
+        }
+        [HttpPost("AddFavorite")]
+        public async Task<IActionResult> AddFavorite(string userId, string doctorId)
+        {
+            var fav = new Favorite
+            {
+                UserID = userId,
+                DoctorID = doctorId
+            };
+            _dbContext.Favorites.Add(fav);
+            _dbContext.SaveChanges();
+            return Ok("Favorite Added");
+        }
+        [HttpGet("ShowFavorites")]
+        public async Task<IActionResult> ShowFavorites(string userId)
+        {
+            var favorites = _dbContext.Favorites.Where(x=>x.UserID== userId);
+            return Ok(new { favorites });
+        }
 
     }
 }

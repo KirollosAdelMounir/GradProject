@@ -9,5 +9,7 @@ namespace HealthCareSys.Models
         public string SpecializationName { get; set; }
         public string SpecializationDescription { get; set;}
         public int NumberOfDoctors { get; set; } = 0;
+        [DataType(DataType.ImageUrl)]
+        public string SpecImage { get; set; } = "123.jpg";
     }
 }

@@ -81,7 +81,17 @@ namespace HealthCareSysAPI.Controllers
             }
             return BadRequest();
         }
-
-
+        [HttpGet("ShowUser")]
+        public async Task<IActionResult> ShowUser(string userID)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x=>x.Id== userID);
+            return Ok (user);
+        }
+        [HttpGet("ShowAllSpecs")]
+        public async Task<IActionResult> AllSpecialization()
+        {
+            var specialization = _dbContext.Specializations;
+            return Ok(specialization);
+        }
     }
 }

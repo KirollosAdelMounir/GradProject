@@ -59,9 +59,10 @@ namespace HealthCareSysAPI.Controllers
         [HttpDelete("DeleteDoctor")]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
-            var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.DoctorID== id);
+            var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == id);
             var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
-            if (user != null&&doctor!= null) {
+            if (user != null && doctor != null)
+            {
                 _dbContext.Doctors.Remove(doctor);
                 _dbContext.Users.Remove(user);
                 await _dbContext.SaveChangesAsync();
@@ -72,7 +73,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpDelete("DeleteForum")]
         public async Task<IActionResult> DeleteForum(int id)
         {
-            var forum = _dbContext.Forums.FirstOrDefault(x=>x.PostID==id);
+            var forum = _dbContext.Forums.FirstOrDefault(x => x.PostID == id);
             if (forum != null)
             {
                 _dbContext.Forums.Remove(forum);
@@ -84,7 +85,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpDelete("DeleteComment")]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            var comment = _dbContext.Comments.FirstOrDefault(x=>x.CommentID== id);
+            var comment = _dbContext.Comments.FirstOrDefault(x => x.CommentID == id);
             if (comment != null)
             {
                 _dbContext.Comments.Remove(comment);
@@ -93,8 +94,44 @@ namespace HealthCareSysAPI.Controllers
             }
             return BadRequest();
         }
+        [HttpPost("ChangeSpecPicture")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangeSpecPic([FromForm] int id, IFormFile file)
+        {
+            var spec = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == id);
+            if (spec != null)
+            {
+                if (file != null && file.Length > 0)
+                {
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "spec");
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder); // Create the directory if it doesn't exist
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    spec.SpecImage = uniqueFileName;
+                }
 
 
 
+                _dbContext.Specializations.Update(spec);
+                _dbContext.SaveChanges();
+                return Ok(new { message = "Specialization Picture Changed Successfully" });
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+
+        }
     }
 }
