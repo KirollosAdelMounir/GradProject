@@ -19,8 +19,14 @@ namespace HealthCareSysAPI.Controllers
             _dbContext = dbContext;
 
         }
-        [HttpGet("AllDoctors")]
+        [HttpGet("AllUsers")]
         public IActionResult GetUsers()
+        {
+            var users = _dbContext.Users.ToList();
+            return Ok(users);
+        }
+        [HttpGet("AllDoctors")]
+        public IActionResult GetDoctors()
         {
             var doctors = _dbContext.Doctors.ToList();
             return Ok(doctors);

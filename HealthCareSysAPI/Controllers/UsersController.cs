@@ -10,6 +10,8 @@ using BCrypt.Net;
 using HealthCareSys.Models;
 using HealthCareSysAPI.TokenRequest;
 using System.IO;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -23,19 +25,16 @@ namespace HealthCareSysAPI.Controllers
         private readonly SignInManager<HealthCareSysUser> _signInManager;
         private readonly EmailService _emailService;
         private readonly Dictionary<string, HealthCareSysUser> _users;
+
         public UsersController(HealthCareSysDBContext dbContext, EmailService emailService)
         {
             _dbContext = dbContext;
             _emailService = emailService;
             _users = new Dictionary<string, HealthCareSysUser>();
+
         }
 
-        [HttpGet("AllUsers")]
-        public IActionResult GetUsers()
-        {
-            var users = _dbContext.Users.ToList();
-            return Ok(users);
-        }
+ 
         [HttpPost("Register")]
 
         public async Task<IActionResult> Register([FromBody] HealthCareSysUser model)
@@ -140,7 +139,7 @@ namespace HealthCareSysAPI.Controllers
                         {
                             var confirmationLink = GenerateConfirmationLink(confirmUser.Id); // Generate the confirmation link based on the user ID
                             _emailService.SendConfirmationEmail(confirmUser.EmailAddress, confirmationLink);
-                            return Ok("Confirmation Email Sent");
+                            return Unauthorized("Confirmation Email Sent");
                         }
                     }
                 }
@@ -301,6 +300,7 @@ namespace HealthCareSysAPI.Controllers
             var favorites = _dbContext.Favorites.Where(x=>x.UserID== userId);
             return Ok(new { favorites });
         }
-
+      
     }
 }
+

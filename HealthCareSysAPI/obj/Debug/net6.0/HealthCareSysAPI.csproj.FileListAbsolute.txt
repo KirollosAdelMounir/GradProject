@@ -215,3 +215,9 @@ E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\MailKit.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\MimeKit.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
 E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.AspNet.SignalR.Core.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.AspNet.SignalR.SystemWeb.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Owin.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Owin.Host.SystemWeb.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Microsoft.Owin.Security.dll
+E:\GradProjectV2\HealthCareSys\HealthCareSysAPI\bin\Debug\net6.0\Owin.dll
