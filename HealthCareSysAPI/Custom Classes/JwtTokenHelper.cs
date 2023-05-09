@@ -39,7 +39,8 @@ namespace HealthCareSysAPI.Custom_Classes
                     new Claim ("Age", Age.ToString()),
                     new Claim("PhoneNumber",user.PhoneNumber),
                     new Claim("Gender" , gender),
-                    new Claim ("Image",user.Image)
+                    new Claim ("Image",user.Image),
+                    new Claim ("Address",user.Address)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(expiryMinutes),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
