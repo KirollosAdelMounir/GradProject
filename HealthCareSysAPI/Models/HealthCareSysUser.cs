@@ -37,6 +37,8 @@ namespace HealthCareSysAPI.Models
         public string Image { get; set; }
         [Required]
         public BloodType Blood { get; set; }
+        [Required]
+        public string Address { get; set; }
         public bool ConfirmEmail { get; set; } = false;
 
         public enum TypeOfUser

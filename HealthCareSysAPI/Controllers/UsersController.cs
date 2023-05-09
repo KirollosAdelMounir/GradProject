@@ -55,7 +55,8 @@ namespace HealthCareSysAPI.Controllers
                     Gender = model.Gender,
                     type = model.type,
                     Blood = model.Blood,
-                    Image = "123.jpg"
+                    Image = "123.jpg",
+                    Address = model.Address
                 };
                 var existedUser = _dbContext.Users.FirstOrDefault(x => x.EmailAddress == user.EmailAddress);
                 if (existedUser != null) { return BadRequest("Email existed please enter new email"); }
