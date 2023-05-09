@@ -11,7 +11,6 @@ using HealthCareSys.Models;
 using HealthCareSysAPI.TokenRequest;
 using System.IO;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNet.SignalR;
 
 namespace HealthCareSysAPI.Controllers
 {
