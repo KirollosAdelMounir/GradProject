@@ -139,5 +139,17 @@ namespace HealthCareSysAPI.Controllers
 
 
         }
+        [HttpGet("AllPosts")]
+        public IActionResult GetPosts()
+        {
+            var Posts = _dbContext.Forums.ToList();
+            return Ok(Posts);
+        }
+        [HttpGet("AllComments")]
+        public IActionResult GetComments()
+        {
+            var comments = _dbContext.Comments.ToList();
+            return Ok(comments);
+        }
     }
 }
