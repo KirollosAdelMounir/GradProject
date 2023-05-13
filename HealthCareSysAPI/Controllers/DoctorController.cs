@@ -93,5 +93,60 @@ namespace HealthCareSysAPI.Controllers
             var specialization = _dbContext.Specializations;
             return Ok(specialization);
         }
+        [HttpPost("AddSchedule")]
+        public async Task <IActionResult> AddSchedule([FromBody]ScheduleTiming scheduleTiming) 
+        {
+            if (ModelState.IsValid)
+            {
+                var addedscheduletiming = new ScheduleTiming()
+                {
+                    DoctorID = scheduleTiming.DoctorID,
+                    TimeFrom = scheduleTiming.TimeFrom,
+                    TimeTo = scheduleTiming.TimeTo,
+                    day = scheduleTiming.day
+                };
+                if (addedscheduletiming!=null)
+                {
+                    _dbContext.ScheduleTimings.Add(addedscheduletiming);
+                    _dbContext.SaveChanges();
+                    return Ok("Schedule Timing Added");
+                }
+                else
+                {
+                    return BadRequest("Insufficient Data");
+                }
+            }
+            return BadRequest("Insufficient Data");
+
+        }
+        [HttpGet("ShowSchedule")]
+        public async Task<IActionResult> ShowDoctorSchedule(string userID)
+        {
+            var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.UserID == userID);
+            var schedule = _dbContext.ScheduleTimings.FirstOrDefault(x => x.DoctorID == doctor.DoctorID);
+            if(schedule!= null)
+            {
+                return Ok(schedule);
+            }
+            else
+            {
+                return NotFound("Doctor Not Found");
+            }
+        }
+        [HttpDelete("DeleteSchedule")]
+        public async Task<IActionResult> DeleteSchedule(int ScheduleID)
+        {
+            var schedule = _dbContext.ScheduleTimings.FirstOrDefault(x=>x.Id== ScheduleID);
+            if (schedule != null)
+            {
+                _dbContext.ScheduleTimings.Remove(schedule);
+                await _dbContext.SaveChangesAsync();
+                return Ok("Schedule Deleted Successfully");
+            }
+            else
+            {
+                return NotFound("Schedule Not founded");
+            }
+        }
     }
 }
