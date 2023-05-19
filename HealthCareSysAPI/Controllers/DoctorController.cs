@@ -35,7 +35,8 @@ namespace HealthCareSysAPI.Controllers
                     DoctorID = random.GenerateRandomId(15),
                     UserID = model.UserID,
                     AverageRating = 0,
-                    specializationSpecID = model.specializationSpecID
+                    specializationSpecID = model.specializationSpecID,
+                    price = model.price
                 };
                 var spec = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == doctor.specializationSpecID);
                 spec.NumberOfDoctors = spec.NumberOfDoctors + 1;
@@ -94,7 +95,7 @@ namespace HealthCareSysAPI.Controllers
             return Ok(specialization);
         }
         [HttpPost("AddSchedule")]
-        public async Task <IActionResult> AddSchedule([FromBody]ScheduleTiming scheduleTiming) 
+        public async Task <IActionResult> AddSchedule([FromBody] ScheduleAddition scheduleTiming) 
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +104,7 @@ namespace HealthCareSysAPI.Controllers
                     DoctorID = scheduleTiming.DoctorID,
                     TimeFrom = scheduleTiming.TimeFrom,
                     TimeTo = scheduleTiming.TimeTo,
-                    day = scheduleTiming.day
+                    day = (ScheduleTiming.Day)scheduleTiming.day
                 };
                 if (addedscheduletiming!=null)
                 {
@@ -123,7 +124,7 @@ namespace HealthCareSysAPI.Controllers
         public async Task<IActionResult> ShowDoctorSchedule(string userID)
         {
             var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.UserID == userID);
-            var schedule = _dbContext.ScheduleTimings.FirstOrDefault(x => x.DoctorID == doctor.DoctorID);
+            var schedule = _dbContext.ScheduleTimings.Where(x => x.DoctorID == doctor.DoctorID);
             if(schedule!= null)
             {
                 return Ok(schedule);

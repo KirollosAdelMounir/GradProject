@@ -4,6 +4,7 @@ using HealthCareSysAPI.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthCareSysAPI.Migrations
 {
     [DbContext(typeof(HealthCareSysDBContext))]
-    partial class HealthCareSysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230519062554_NewAttributesAdded")]
+    partial class NewAttributesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,13 +308,11 @@ namespace HealthCareSysAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TimeFrom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TimeFrom")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("TimeTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TimeTo")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("day")
                         .HasColumnType("int");

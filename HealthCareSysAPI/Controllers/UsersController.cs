@@ -182,7 +182,7 @@ namespace HealthCareSysAPI.Controllers
                 if (file != null && file.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "profiles");
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string uniqueFileName = user.Id+ ".jpg";
 
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 

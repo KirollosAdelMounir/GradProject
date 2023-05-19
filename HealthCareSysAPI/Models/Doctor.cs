@@ -15,6 +15,7 @@ namespace HealthCareSys.Models
         [Required]
         public string UserID { get; set; }
         public float AverageRating { get; set; }
+        public int price { get; set; }
         public Specialization specialization { get; set; }
         [ForeignKey("SpecID")]
         public int specializationSpecID { get; set; }

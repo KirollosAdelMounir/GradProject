@@ -29,6 +29,19 @@ namespace HealthCareSysAPI.Controllers
         public IActionResult GetDoctors()
         {
             var doctors = _dbContext.Doctors.ToList();
+            foreach (var doctor in doctors)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+                if(user!=null)
+                {
+                    doctor.User = user;
+                }
+                var spec = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == doctor.specializationSpecID);
+                if(spec!=null)
+                {
+                    doctor.specialization= spec;
+                }
+            }
             return Ok(doctors);
         }
         [HttpPost("AddSpecialization")]
@@ -151,5 +164,18 @@ namespace HealthCareSysAPI.Controllers
             var comments = _dbContext.Comments.ToList();
             return Ok(comments);
         }
+        [HttpDelete("DeleteSpec")]
+        public async Task<IActionResult> DeleteSpec(int id)
+        {
+            var spec = _dbContext.Specializations.FirstOrDefaultAsync(x=>x.SpecID== id);
+            if(spec != null)
+            {
+                _dbContext.Specializations.Remove(await spec);
+                _dbContext.SaveChanges();
+                return Ok("Specialization Deleted Successfully");
+            }
+            else { return BadRequest(); }
+        }
+
     }
 }

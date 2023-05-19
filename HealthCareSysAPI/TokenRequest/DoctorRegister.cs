@@ -9,6 +9,7 @@ namespace HealthCareSysAPI.TokenRequest
         [Required]
         public int specializationSpecID { get; set; }
 
-
+        [Required]
+        public int price { get; set; }
     }
 }
