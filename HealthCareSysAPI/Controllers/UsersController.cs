@@ -300,7 +300,55 @@ namespace HealthCareSysAPI.Controllers
             var favorites = _dbContext.Favorites.Where(x=>x.UserID== userId);
             return Ok(new { favorites });
         }
-      
+        [HttpPut("WriteReview")]
+        public async Task<IActionResult> AddReview(int AppointmentID , int AppointmentRating,string AppointmentReview)
+        {
+            var appointment = _dbContext.Appointments.FirstOrDefault(x=>x.AppointmentID==AppointmentID);
+            if (appointment!=null && appointment.IsDone == true)
+            {
+                var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == appointment.DoctorID);
+
+                appointment.AppointmentRating = AppointmentRating;
+                appointment.AppointmentReview = AppointmentReview;
+                if (doctor != null)
+                {
+                    if (doctor.AverageRating == 0)
+                    {
+                        doctor.AverageRating = AppointmentRating;
+                    }
+                    else
+                    {
+                        doctor.AverageRating = (doctor.AverageRating + AppointmentRating) / 2;
+                    }
+                    _dbContext.Doctors.Update(doctor);
+                }
+                _dbContext.Appointments.Update(appointment);
+                _dbContext.SaveChanges();
+                return Ok("Review Added Successfully");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpPut("CommentRating")]
+        public async Task<IActionResult> AddCommentReview(int CommentID, int CommentRating)
+        {
+            var comment = _dbContext.Comments.FirstOrDefault(x=>x.CommentID==CommentID);
+            if (comment != null)
+            {
+                comment.CommentRating = CommentRating;
+                _dbContext.Comments.Update(comment);
+                _dbContext.SaveChanges();
+                return Ok("Comment Rating Added");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 }
 

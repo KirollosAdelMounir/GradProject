@@ -20,6 +20,6 @@ namespace HealthCareSys.Models
         public int AppointmentRating { get; set; } = 0;
         public string AppointmentReview { get; set; }
         public bool IsDone { get; set; } = false;
-        public bool IsAccepted { get; set; } 
+        public bool IsAccepted { get; set; } = false;
     }
 }

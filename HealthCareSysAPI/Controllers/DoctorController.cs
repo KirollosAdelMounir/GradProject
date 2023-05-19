@@ -149,5 +149,33 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound("Schedule Not founded");
             }
         }
+        [HttpPut("AcceptAppointment")]
+        public IActionResult AcceptAppointment (int appointmentID)
+        {
+            var appointment = _dbContext.Appointments.Where(x=>x.AppointmentID== appointmentID).FirstOrDefault(); 
+            if (appointment!= null)
+            {
+                appointment.IsAccepted= true;
+                return Ok("Appointment Accepted");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpPut("AppointmentCompleted")]
+        public IActionResult AppointmentCompleted(int appointmentID)
+        {
+            var appointment = _dbContext.Appointments.Where(x => x.AppointmentID == appointmentID).FirstOrDefault();
+            if (appointment != null)
+            {
+                appointment.IsDone = true;
+                return Ok("Appointment Completed");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
