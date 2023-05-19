@@ -177,5 +177,21 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound();
             }
         }
+        [HttpDelete("DeleteComment")]
+        public IActionResult DeleteComment(int CommentID)
+        {
+            var comment = _dbContext.Comments.FirstOrDefault(x=>x.CommentID== CommentID);
+            if (comment != null)
+            {
+                _dbContext.Comments.Remove(comment);
+                _dbContext.SaveChanges();
+                return Ok("Comment Deleted Successfully");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

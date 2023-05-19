@@ -347,8 +347,18 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound();
             }
         }
-
-
+        [HttpDelete("DeletePost")]
+        public IActionResult DeletePost(int Post) { 
+        
+            var post = _dbContext.Forums.FirstOrDefault(x=>x.PostID==Post);
+            if (post != null)
+            {
+                _dbContext.Forums.Remove(post);
+                _dbContext.SaveChanges();
+                return Ok("Post Deleted Successfully");
+            }
+            else { return NotFound(); }
+        }
     }
 }
 
