@@ -176,6 +176,12 @@ namespace HealthCareSysAPI.Controllers
             }
             else { return BadRequest(); }
         }
+        [HttpGet("ShowAllAppointments")]
+        public IActionResult ShowAllAppointments()
+        {
+            var allAppointments = _dbContext.Appointments.ToList();
+            return Ok(allAppointments);
+        }
 
     }
 }

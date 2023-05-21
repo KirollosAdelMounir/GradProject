@@ -192,6 +192,15 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound();
             }
         }
-
+        [HttpGet("ShowDoctorAppointment")]
+        public IActionResult ShowDoctorAppointment (string doctorID)
+        {
+            var appointments = _dbContext.Appointments.Where(x=>x.DoctorID== doctorID).ToList();
+            if(appointments != null)
+            {
+                return Ok(appointments);
+            }
+            else { return BadRequest(); }
+        }
     }
 }

@@ -303,7 +303,12 @@ namespace HealthCareSysAPI.Controllers
                 var favDoc = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == fav.DoctorID);
                 if (favDoc != null)
                 {
+                    var favDocUser = _dbContext.Users.FirstOrDefault(x => x.Id == favDoc.UserID);
                     fav.doctor = favDoc;
+                    if(favDocUser!= null)
+                    {
+                        fav.doctor.User= favDocUser;
+                    }
                 }
             }
             return Ok(new { favorites });
