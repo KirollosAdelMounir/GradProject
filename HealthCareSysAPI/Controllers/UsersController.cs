@@ -33,7 +33,7 @@ namespace HealthCareSysAPI.Controllers
 
         }
 
- 
+
         [HttpPost("Register")]
 
         public async Task<IActionResult> Register([FromBody] HealthCareSysUser model)
@@ -182,7 +182,7 @@ namespace HealthCareSysAPI.Controllers
                 if (file != null && file.Length > 0)
                 {
                     string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "profiles");
-                    string uniqueFileName = user.Id+ ".jpg";
+                    string uniqueFileName = user.Id + ".jpg";
 
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -297,14 +297,23 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ShowFavorites")]
         public async Task<IActionResult> ShowFavorites(string userId)
         {
-            var favorites = _dbContext.Favorites.Where(x=>x.UserID== userId);
+            var favorites = _dbContext.Favorites.Where(x => x.UserID == userId);
+            foreach (var fav in favorites)
+            {
+                var favDoc = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == fav.DoctorID);
+                if (favDoc != null)
+                {
+                    fav.doctor = favDoc;
+                }
+            }
             return Ok(new { favorites });
+
         }
         [HttpPut("WriteReview")]
-        public async Task<IActionResult> AddReview(int AppointmentID , int AppointmentRating,string AppointmentReview)
+        public async Task<IActionResult> AddReview(int AppointmentID, int AppointmentRating, string AppointmentReview)
         {
-            var appointment = _dbContext.Appointments.FirstOrDefault(x=>x.AppointmentID==AppointmentID);
-            if (appointment!=null && appointment.IsDone == true)
+            var appointment = _dbContext.Appointments.FirstOrDefault(x => x.AppointmentID == AppointmentID);
+            if (appointment != null && appointment.IsDone == true)
             {
                 var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == appointment.DoctorID);
 
@@ -334,7 +343,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpPut("CommentRating")]
         public async Task<IActionResult> AddCommentReview(int CommentID, int CommentRating)
         {
-            var comment = _dbContext.Comments.FirstOrDefault(x=>x.CommentID==CommentID);
+            var comment = _dbContext.Comments.FirstOrDefault(x => x.CommentID == CommentID);
             if (comment != null)
             {
                 comment.CommentRating = CommentRating;
@@ -348,9 +357,9 @@ namespace HealthCareSysAPI.Controllers
             }
         }
         [HttpDelete("DeletePost")]
-        public IActionResult DeletePost(int Post) { 
-        
-            var post = _dbContext.Forums.FirstOrDefault(x=>x.PostID==Post);
+        public IActionResult DeletePost(int Post) {
+
+            var post = _dbContext.Forums.FirstOrDefault(x => x.PostID == Post);
             if (post != null)
             {
                 _dbContext.Forums.Remove(post);
@@ -358,6 +367,21 @@ namespace HealthCareSysAPI.Controllers
                 return Ok("Post Deleted Successfully");
             }
             else { return NotFound(); }
+        }
+        [HttpDelete("DeleteFavorite")]
+        public IActionResult DeleteFavorite (string DoctorID)
+        {
+            var favDoc = _dbContext.Favorites.FirstOrDefault(x=>x.DoctorID== DoctorID);
+            if(favDoc != null)
+            {
+                _dbContext.Favorites.Remove(favDoc);
+                _dbContext.SaveChanges();
+                return Ok("Favorite Delete Successfully");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
