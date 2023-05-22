@@ -121,10 +121,9 @@ namespace HealthCareSysAPI.Controllers
 
         }
         [HttpGet("ShowSchedule")]
-        public async Task<IActionResult> ShowDoctorSchedule(string userID)
+        public async Task<IActionResult> ShowDoctorSchedule(string doctorID)
         {
-            var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.UserID == userID);
-            var schedule = _dbContext.ScheduleTimings.Where(x => x.DoctorID == doctor.DoctorID);
+            var schedule = _dbContext.ScheduleTimings.Where(x=>x.DoctorID == doctorID);
             if(schedule!= null)
             {
                 return Ok(schedule);

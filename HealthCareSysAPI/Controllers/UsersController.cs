@@ -388,6 +388,21 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound();
             }
         }
+        [HttpGet("ViewPostComments")]
+        public async Task<IActionResult> ViewPostComments(int postID)
+        {
+            var comments = _dbContext.Comments.Where(x=>x.ForumID== postID).ToList();
+            if (comments != null)
+            {
+                return Ok(comments);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 }
 

@@ -156,6 +156,14 @@ namespace HealthCareSysAPI.Controllers
         public IActionResult GetPosts()
         {
             var Posts = _dbContext.Forums.ToList();
+            foreach (var post in Posts)
+            {
+                var specialization = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == post.specializationSpecID);
+                if (specialization != null)
+                {
+                    post.Specialization = specialization;
+                }
+            }
             return Ok(Posts);
         }
         [HttpGet("AllComments")]
