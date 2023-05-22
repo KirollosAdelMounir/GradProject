@@ -195,9 +195,18 @@ namespace HealthCareSysAPI.Controllers
         public IActionResult ShowDoctorAppointment (string doctorID)
         {
             var appointments = _dbContext.Appointments.Where(x=>x.DoctorID== doctorID).ToList();
-            if(appointments != null)
+            if(appointments != null )
             {
-                return Ok(appointments);
+                foreach (var appointment in appointments)
+                {
+                    if (appointment.AppointmentDate < DateTime.Now)
+                    {
+                        appointment.IsDone = true;
+                        _dbContext.Appointments.Update(appointment);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Ok(appointments.Where(x=>x.IsDone==false));
             }
             else { return BadRequest(); }
         }

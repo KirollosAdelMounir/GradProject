@@ -394,6 +394,17 @@ namespace HealthCareSysAPI.Controllers
             var comments = _dbContext.Comments.Where(x=>x.ForumID== postID).ToList();
             if (comments != null)
             {
+                foreach(var comment in comments)
+                {
+                    var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.DoctorID== comment.DoctorID);
+                    if(doctor != null )
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+
+                        comment.doctor = doctor;
+                        doctor.User= user;
+                    }
+                }
                 return Ok(comments);
             }
             else
