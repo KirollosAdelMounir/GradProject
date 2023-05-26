@@ -194,7 +194,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ShowDoctorAppointment")]
         public IActionResult ShowDoctorAppointment (string doctorID)
         {
-            var appointments = _dbContext.Appointments.Where(x=>x.DoctorID== doctorID).ToList();
+            var appointments = _dbContext.Appointments.Where(x=>x.DoctorID== doctorID && x.IsAccepted == false).ToList();
             if(appointments != null )
             {
                 foreach (var appointment in appointments)

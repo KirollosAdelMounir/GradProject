@@ -187,7 +187,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ShowAllAppointments")]
         public IActionResult ShowAllAppointments()
         {
-            var allAppointments = _dbContext.Appointments.ToList();
+            var allAppointments = _dbContext.Appointments.Where(x=>x.IsDone == true).ToList();
             return Ok(allAppointments);
         }
 
