@@ -18,7 +18,7 @@ namespace HealthCareSys.Models
         public string DoctorID { get; set; }
         public DateTime AppointmentDate { get; set; }
         public int AppointmentRating { get; set; } = 0;
-        public string AppointmentReview { get; set; }
+        public string AppointmentReview { get; set; } = DateTime.Now.ToString();
         public bool IsDone { get; set; } = false;
         public bool IsAccepted { get; set; } = false;
     }
