@@ -155,6 +155,8 @@ namespace HealthCareSysAPI.Controllers
             if (appointment!= null)
             {
                 appointment.IsAccepted= true;
+                _dbContext.Appointments.Update(appointment);
+                _dbContext.SaveChanges();
                 return Ok("Appointment Accepted");
             }
             else
@@ -169,6 +171,8 @@ namespace HealthCareSysAPI.Controllers
             if (appointment != null)
             {
                 appointment.IsDone = true;
+                _dbContext.Appointments.Update(appointment);
+                _dbContext.SaveChanges();
                 return Ok("Appointment Completed");
             }
             else
