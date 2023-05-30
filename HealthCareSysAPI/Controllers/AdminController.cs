@@ -188,6 +188,21 @@ namespace HealthCareSysAPI.Controllers
         public IActionResult ShowAllAppointments()
         {
             var allAppointments = _dbContext.Appointments.Where(x=>x.IsDone == true).ToList();
+            foreach(var appointment in allAppointments)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == appointment.UserId);
+                if (user != null) { appointment.User = user; }
+                var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.DoctorID== appointment.DoctorID);
+                if (doctor != null)
+                {
+                    var doctoruser = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+                    if (doctoruser != null)
+                    {
+                        appointment.doctor = doctor;
+                        doctor.User = doctoruser;
+                    }
+                  }
+                }
             return Ok(allAppointments);
         }
 

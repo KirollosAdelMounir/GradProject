@@ -412,6 +412,38 @@ namespace HealthCareSysAPI.Controllers
                 return NotFound();
             }
         }
+        [HttpGet("ShowUserAppointment")]
+        public IActionResult ShowUserAppointment(string userID)
+        {
+            var appointments = _dbContext.Appointments.Where(x => x.UserId == userID && x.IsAccepted == false).ToList();
+            if (appointments != null)
+            {
+                foreach (var appointment in appointments)
+                {
+                    var user = _dbContext.Users.FirstOrDefault(x => x.Id == appointment.UserId);
+                    if (user != null) { appointment.User = user; }
+                    var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == appointment.DoctorID);
+                    if (doctor != null)
+                    {
+                        var doctoruser = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+                        if (doctoruser != null)
+                        {
+                            appointment.doctor = doctor;
+                            doctor.User = doctoruser;
+                        }
+                    }
+                    if (appointment.AppointmentDate < DateTime.Now)
+                    {
+                        appointment.IsDone = true;
+                        _dbContext.Appointments.Update(appointment);
+                        _dbContext.SaveChanges();
+                    }
+                }
+
+                return Ok(appointments.Where(x => x.IsDone == false));
+            }
+            else { return BadRequest(); }
+        }
 
 
     }
