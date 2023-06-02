@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "UEDsaqte8Kjo8Urn5LzMOWhyAUrP4ASXZcuQXS7dHfU=",
+  "Source": "HealthCareSysAPI",
+  "BasePath": "_content/HealthCareSysAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

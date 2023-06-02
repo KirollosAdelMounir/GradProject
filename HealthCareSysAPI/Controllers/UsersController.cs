@@ -22,10 +22,10 @@ namespace HealthCareSysAPI.Controllers
         private readonly HealthCareSysDBContext _dbContext;
         private readonly UserManager<HealthCareSysUser> _userManager;
         private readonly SignInManager<HealthCareSysUser> _signInManager;
-        private readonly EmailService _emailService;
+        private readonly messageservice _emailService;
         private readonly Dictionary<string, HealthCareSysUser> _users;
 
-        public UsersController(HealthCareSysDBContext dbContext, EmailService emailService)
+        public UsersController(HealthCareSysDBContext dbContext, messageservice emailService)
         {
             _dbContext = dbContext;
             _emailService = emailService;
@@ -74,11 +74,11 @@ namespace HealthCareSysAPI.Controllers
                     _dbContext.Users.Add(user);
                     _dbContext.SaveChanges();
                     var confirmationLink = GenerateConfirmationLink(user.Id); // Generate the confirmation link based on the user ID
-                    _emailService.SendConfirmationEmail(user.EmailAddress, confirmationLink);
+                    _emailService.Send(user.EmailAddress, confirmationLink);
 
                     return Ok(new { message = "Registration successful" });
                 }
-
+                
 
             }
 
@@ -86,7 +86,7 @@ namespace HealthCareSysAPI.Controllers
         }
         private string GenerateConfirmationLink(string userId)
         {
-            return $"https://localhost:7036/api/Users/confirmEmail?userId={userId}";
+            return $"https://healthcaresys.azurewebsites.net/api/Users/confirmEmail?userId={userId}";
         }
         [HttpGet("confirmEmail")]
         public IActionResult ConfirmEmail([FromQuery] string userId)
@@ -138,7 +138,7 @@ namespace HealthCareSysAPI.Controllers
                         else
                         {
                             var confirmationLink = GenerateConfirmationLink(confirmUser.Id); // Generate the confirmation link based on the user ID
-                            _emailService.SendConfirmationEmail(confirmUser.EmailAddress, confirmationLink);
+                            _emailService.Send(confirmUser.EmailAddress, confirmationLink);
                             return Unauthorized("Confirmation Email Sent");
                         }
                     }

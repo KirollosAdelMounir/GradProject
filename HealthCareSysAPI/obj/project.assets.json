@@ -3367,11 +3367,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GradProjectV2\\HealthCareSys\\HealthCareSysAPI\\HealthCareSysAPI.csproj",
+      "projectUniqueName": "E:\\GradProjectV2\\HealthCareSysAPI\\HealthCareSysAPI\\HealthCareSysAPI.csproj",
       "projectName": "HealthCareSysAPI",
-      "projectPath": "E:\\GradProjectV2\\HealthCareSys\\HealthCareSysAPI\\HealthCareSysAPI.csproj",
+      "projectPath": "E:\\GradProjectV2\\HealthCareSysAPI\\HealthCareSysAPI\\HealthCareSysAPI.csproj",
       "packagesPath": "C:\\Users\\kokoe\\.nuget\\packages\\",
-      "outputPath": "E:\\GradProjectV2\\HealthCareSys\\HealthCareSysAPI\\obj\\",
+      "outputPath": "E:\\GradProjectV2\\HealthCareSysAPI\\HealthCareSysAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "F:\\Microsoft Visual Studio\\Shared\\NuGetPackages"

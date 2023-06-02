@@ -13,7 +13,11 @@ builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB
 });
+builder.Services.Configure<EmailService>(builder.Configuration.GetSection("EmailConfiguration"));
+
+builder.Services.AddScoped<messageservice>();
 builder.Services.AddScoped<EmailService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
