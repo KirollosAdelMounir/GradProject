@@ -172,7 +172,30 @@ namespace HealthCareSysAPI.Controllers
         public IActionResult GetComments()
         {
             var comments = _dbContext.Comments.ToList();
-            return Ok(comments);
+            if (comments != null)
+            {
+                foreach (var comment in comments)
+                {
+                    var post = _dbContext.Forums.FirstOrDefault(x => x.PostID == comment.ForumID);
+                    var doctor = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == comment.DoctorID);
+
+                    if (doctor != null && post != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
+                        comment.forum = post;
+                        comment.doctor = doctor;
+                        if (user != null)
+                        {
+                            doctor.User = user;
+                        }
+                    }
+                }
+                return Ok(comments);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
         [HttpDelete("DeleteSpec")]
         public async Task<IActionResult> DeleteSpec(int id)

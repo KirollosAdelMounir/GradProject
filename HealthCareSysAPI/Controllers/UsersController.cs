@@ -405,7 +405,10 @@ namespace HealthCareSysAPI.Controllers
                         var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
                         comment.forum = post;
                         comment.doctor = doctor;
-                        doctor.User= user;
+                        if (user != null)
+                        {
+                            doctor.User = user;
+                        }
                     }
                 }
                 return Ok(comments);
