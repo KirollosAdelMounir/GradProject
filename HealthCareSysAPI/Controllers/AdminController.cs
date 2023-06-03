@@ -158,10 +158,12 @@ namespace HealthCareSysAPI.Controllers
             var Posts = _dbContext.Forums.ToList();
             foreach (var post in Posts)
             {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == post.UserID);
                 var specialization = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == post.specializationSpecID);
-                if (specialization != null)
+                if (specialization != null && user != null)
                 {
                     post.Specialization = specialization;
+                    post.User= user;
                 }
             }
             return Ok(Posts);

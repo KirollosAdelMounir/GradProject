@@ -17,7 +17,7 @@ namespace HealthCareSysAPI.Controllers
     public class DoctorController : ControllerBase
     {
         RandomID random = new RandomID();
-        string DrID;
+        
         private readonly HealthCareSysDBContext _dbContext;
         public DoctorController(HealthCareSysDBContext dbContext)
         {
@@ -226,6 +226,22 @@ namespace HealthCareSysAPI.Controllers
                 return Ok(appointments.Where(x=>x.IsDone==false));
             }
             else { return BadRequest(); }
+        }
+        [HttpGet("ViewSpecPosts")]
+        public IActionResult ShowPosts(int specID)
+        {
+            var Posts = _dbContext.Forums.Where(x=>x.specializationSpecID== specID);
+            foreach (var post in Posts)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == post.UserID);
+                var specialization = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == post.specializationSpecID);
+                if (specialization != null && user != null)
+                {
+                    post.Specialization = specialization;
+                    post.User = user;
+                }
+            }
+            return Ok(Posts);
         }
     }
 }

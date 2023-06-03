@@ -11,6 +11,7 @@ using HealthCareSys.Models;
 using HealthCareSysAPI.TokenRequest;
 using System.IO;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -394,13 +395,15 @@ namespace HealthCareSysAPI.Controllers
             var comments = _dbContext.Comments.Where(x=>x.ForumID== postID).ToList();
             if (comments != null)
             {
-                foreach(var comment in comments)
+                foreach(var comment in comments) 
                 {
+                    var post = _dbContext.Forums.FirstOrDefault(x => x.PostID == comment.ForumID);
                     var doctor = _dbContext.Doctors.FirstOrDefault(x=>x.DoctorID== comment.DoctorID);
-                    if(doctor != null )
+
+                    if (doctor != null && post != null )
                     {
                         var user = _dbContext.Users.FirstOrDefault(x => x.Id == doctor.UserID);
-
+                        comment.forum = post;
                         comment.doctor = doctor;
                         doctor.User= user;
                     }
@@ -444,6 +447,23 @@ namespace HealthCareSysAPI.Controllers
             }
             else { return BadRequest(); }
         }
+        [HttpGet("ViewUserPost")]
+        public IActionResult ViewUserPost(string userID)
+        {
+            var Posts = _dbContext.Forums.Where(x=>x.UserID== userID);
+            foreach (var post in Posts)
+            {
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == post.UserID);
+                var specialization = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == post.specializationSpecID);
+                if (specialization != null && user != null)
+                {
+                    post.Specialization = specialization;
+                    post.User = user;
+                }
+            }
+            return Ok(Posts);
+        }
+
 
 
     }
