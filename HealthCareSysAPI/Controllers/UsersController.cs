@@ -12,6 +12,9 @@ using HealthCareSysAPI.TokenRequest;
 using System.IO;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+using System.Text;
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -467,7 +470,61 @@ namespace HealthCareSysAPI.Controllers
             return Ok(Posts);
         }
 
+        [HttpPost("Predict")]
+        public async Task<IActionResult> Predict([FromForm] HeartAttackData heartAttack)
+        {
+         
+            using (var client = new HttpClient())
+            {
+                string apiUrl = "https://heartattack.azurewebsites.net/predict";
+                var ht = new HeartAttackData()
+                {
+                    age = heartAttack.age,
+                    sex = heartAttack.sex,
+                    cp = heartAttack.cp,
+                    trtbps = heartAttack.trtbps,
+                    chol = heartAttack.chol,
+                    fbs = heartAttack.fbs,
+                    restecg = heartAttack.restecg,
+                    thalachh = heartAttack.thalachh,
+                    exng = heartAttack.exng,
+                    oldpeak = heartAttack.oldpeak,
+                    slp = heartAttack.slp,
+                    caa = heartAttack.caa,
+                    thall = heartAttack.thall
+                };
+                var formData = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("age", ht.age.ToString()),
+                    new KeyValuePair<string, string>("sex", ht.sex.ToString()),
+                    new KeyValuePair<string, string>("cp", ht.cp.ToString()),
+                    new KeyValuePair<string, string>("trtbps", ht.trtbps.ToString()),
+                    new KeyValuePair<string, string>("chol", ht.chol.ToString()),
+                    new KeyValuePair<string, string>("fbs", ht.fbs.ToString()),
+                    new KeyValuePair<string, string>("restecg", ht.restecg.ToString()),
+                    new KeyValuePair<string, string>("thalachh", ht.thalachh.ToString()),
+                    new KeyValuePair<string, string>("exng", ht.exng.ToString()),
+                    new KeyValuePair<string, string>("oldpeak", ht.oldpeak.ToString()),
+                    new KeyValuePair<string, string>("slp", ht.slp.ToString()),
+                    new KeyValuePair<string, string>("caa", ht.caa.ToString()),
+                    new KeyValuePair<string, string>("thall", ht.thall.ToString())
+                });
 
+
+                HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read the response content
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    return Ok(responseContent);
+                }
+                else
+                {
+                    return BadRequest (response.StatusCode);
+                }
+            }
+        }
 
     }
 }
