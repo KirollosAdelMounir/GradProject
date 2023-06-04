@@ -15,11 +15,14 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
+using Microsoft.AspNetCore.Cors;
 
 namespace HealthCareSysAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
+
     public class UsersController : ControllerBase
     {
         RandomID random = new RandomID();
@@ -456,7 +459,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ViewUserPost")]
         public IActionResult ViewUserPost(string userID)
         {
-            var Posts = _dbContext.Forums.Where(x=>x.UserID== userID);
+            var Posts = _dbContext.Forums.Where(x=>x.UserID== userID).ToList();
             foreach (var post in Posts)
             {
                 var user = _dbContext.Users.FirstOrDefault(x => x.Id == post.UserID);

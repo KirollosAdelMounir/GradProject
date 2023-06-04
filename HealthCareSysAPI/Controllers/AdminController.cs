@@ -2,6 +2,7 @@
 using HealthCareSysAPI.DBContext;
 using HealthCareSysAPI.Models;
 using HealthCareSysAPI.TokenRequest;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ namespace HealthCareSysAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
+
     public class AdminController : ControllerBase
     {
         private readonly HealthCareSysDBContext _dbContext;
@@ -89,6 +92,7 @@ namespace HealthCareSysAPI.Controllers
             }
             return BadRequest();
         }
+        [EnableCors("AllowAllOrigins")]
         [HttpDelete("DeleteForum")]
         public async Task<IActionResult> DeleteForum(int id)
         {

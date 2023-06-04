@@ -9,11 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 using HealthCareSys.Models;
 using HealthCareSysAPI.TokenRequest;
+using Microsoft.AspNetCore.Cors;
 
 namespace HealthCareSysAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
+
     public class DoctorController : ControllerBase
     {
         RandomID random = new RandomID();
@@ -230,7 +233,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ViewSpecPosts")]
         public IActionResult ShowPosts(int specID)
         {
-            var Posts = _dbContext.Forums.Where(x=>x.specializationSpecID== specID);
+            var Posts = _dbContext.Forums.Where(x=>x.specializationSpecID== specID).ToList();
             foreach (var post in Posts)
             {
                 var user = _dbContext.Users.FirstOrDefault(x => x.Id == post.UserID);

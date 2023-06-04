@@ -225,7 +225,7 @@ namespace HealthCareSysAPI.Migrations
                         column: x => x.ForumID,
                         principalTable: "Forums",
                         principalColumn: "PostID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
