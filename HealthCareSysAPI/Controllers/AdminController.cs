@@ -216,7 +216,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ShowAllAppointments")]
         public IActionResult ShowAllAppointments()
         {
-            var allAppointments = _dbContext.Appointments.Where(x=>x.IsDone == true).ToList();
+            var allAppointments = _dbContext.Appointments.Where(x=>x.IsDone == true || x.IsAccepted == true).ToList();
             foreach(var appointment in allAppointments)
             {
                 var user = _dbContext.Users.FirstOrDefault(x => x.Id == appointment.UserId);
