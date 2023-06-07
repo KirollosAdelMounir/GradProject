@@ -562,6 +562,63 @@ namespace HealthCareSysAPI.Controllers
                 }
             }
         }
+        [HttpGet("GetProfilePic")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetProfilePic(string id)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
+            if (user != null && !string.IsNullOrEmpty(user.Image))
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "profiles");
+                string filePath = Path.Combine(uploadsFolder, user.Image);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    return File(fileBytes, "image/jpeg"); // Return the image file
+                }
+            }
+
+            return NotFound(); // Profile picture not found
+        }
+        [HttpPost("SetDefaultPic")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SetDefaultProfilePicture([FromForm] string id, IFormFile file)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
+            if (user != null)
+            {
+                if (file != null && file.Length > 0)
+                {
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "profiles");
+                    string uniqueFileName = "123.jpg";
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder); // Create the directory if it doesn't exist
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    user.Image = uniqueFileName;
+                }
+
+
+
+                _dbContext.Users.Update(user);
+                _dbContext.SaveChanges();
+                return Ok(new { message = "Profile Picture Changed Successfully" });
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
     }
 }

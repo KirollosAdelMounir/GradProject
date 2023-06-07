@@ -156,6 +156,27 @@ namespace HealthCareSysAPI.Controllers
 
 
         }
+        [HttpGet("ViewSpecPicture")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult ViewSpecPicture(int id)
+        {
+            var spec = _dbContext.Specializations.FirstOrDefault(x => x.SpecID == id);
+            if (spec != null && !string.IsNullOrEmpty(spec.SpecImage))
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "spec");
+                string filePath = Path.Combine(uploadsFolder, spec.SpecImage);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    return File(fileBytes, "image/jpeg"); // Return the image file
+                }
+            }
+
+            return NotFound(); // Spec picture not found
+        }
+
         [HttpGet("AllPosts")]
         public IActionResult GetPosts()
         {
