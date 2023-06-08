@@ -671,6 +671,36 @@ namespace HealthCareSysAPI.Controllers
 
             return await tcs.Task;
         }
+        [HttpGet("FullConversation")]
+        public async Task<IActionResult> GetFullConversation(string receiver, string sender)
+        {
+            var messages = await _cosmosContext.GetFullConversation(receiver,sender);
+
+            if (messages.Count > 0)
+            {
+                return Ok(messages);
+            }
+
+            var tcs = new TaskCompletionSource<IActionResult>();
+            Action<Chat> callback = (message) =>
+            {
+                if (message.receiver == receiver)
+                {
+                    tcs.SetResult(Ok(new List<Chat> { message }));
+                }
+            };
+
+            _cosmosContext.RegisterMessageCallback(callback);
+
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
+            if (await Task.WhenAny(tcs.Task, timeoutTask) == timeoutTask)
+            {
+                _cosmosContext.UnRegisterMessageCallback(callback);
+                return NoContent();
+            }
+
+            return await tcs.Task;
+        }
     }
 
     }

@@ -49,6 +49,22 @@ public class CosmosContext
 
         return messages;
     }
+    public async Task<List<Chat>> GetFullConversation(string receiver , string sender)
+    {
+        var query = new QueryDefinition("SELECT * FROM c WHERE (c.receiver = '" + receiver + "' and c.sender = '" + sender + "') or (c.receiver = '"+sender+"' and c.sender = '"+receiver+"' )");
+            
+
+        var messages = new List<Chat>();
+        var queryIterator = _container.GetItemQueryIterator<Chat>(query);
+
+        while (queryIterator.HasMoreResults)
+        {
+            var response = await queryIterator.ReadNextAsync();
+            messages.AddRange(response.ToList());
+        }
+
+        return messages;
+    }
     public async Task<dynamic> SendMessage(Chat message)
     {
         RandomID random = new RandomID();
@@ -59,7 +75,7 @@ public class CosmosContext
             content = message.content,
             sender = message.sender,
             receiver = message.receiver,
-            timestamp = message.timestamp
+            timestamp = DateTime.Now
         };
         var response = await _container.CreateItemAsync(document);
        return response;
