@@ -16,6 +16,10 @@ using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
 using Microsoft.AspNetCore.Cors;
+using HealthCareSysAPI.CosmosModel;
+using Microsoft.Azure.Cosmos;
+using System.Reflection.Metadata;
+using System.Net;
 
 namespace HealthCareSysAPI.Controllers
 {
@@ -31,13 +35,14 @@ namespace HealthCareSysAPI.Controllers
         private readonly SignInManager<HealthCareSysUser> _signInManager;
         private readonly messageservice _emailService;
         private readonly Dictionary<string, HealthCareSysUser> _users;
+        private readonly CosmosContext _cosmosContext;
 
-        public UsersController(HealthCareSysDBContext dbContext, messageservice emailService)
+        public UsersController(HealthCareSysDBContext dbContext, messageservice emailService, CosmosContext cosmosContext)
         {
             _dbContext = dbContext;
             _emailService = emailService;
             _users = new Dictionary<string, HealthCareSysUser>();
-
+            _cosmosContext = cosmosContext;
         }
 
 
@@ -619,7 +624,55 @@ namespace HealthCareSysAPI.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("Send")]
+        public async Task<IActionResult> SendMessage(Chat message)
+        {
+           var response = await _cosmosContext.SendMessage(message);
+            if (response != null)
+            {
+                _cosmosContext.NotifyNewMessage(message);
+
+                return Ok("Message Sent Successfully");
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("receive/{receiver}")]
+        public async Task<IActionResult> ReceiveMessages(string receiver)
+        {
+            var messages = await _cosmosContext.GetChatMessagesByReceiverAsync(receiver);
+
+            if (messages.Count > 0)
+            {
+                return Ok(messages);
+            }
+
+            var tcs = new TaskCompletionSource<IActionResult>();
+            Action<Chat> callback = (message) =>
+            {
+                if (message.receiver == receiver)
+                {
+                    tcs.SetResult(Ok(new List<Chat> { message }));
+                }
+            };
+
+               _cosmosContext.RegisterMessageCallback(callback);
+
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
+            if (await Task.WhenAny(tcs.Task, timeoutTask) == timeoutTask)
+            {
+                _cosmosContext.UnRegisterMessageCallback(callback);
+                return NoContent();
+            }
+
+            return await tcs.Task;
+        }
+    }
 
     }
-}
+
 
