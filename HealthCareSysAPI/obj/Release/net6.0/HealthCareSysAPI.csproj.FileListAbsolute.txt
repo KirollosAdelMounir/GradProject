@@ -9,8 +9,6 @@ E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\BCrypt.Net
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\BouncyCastle.Cryptography.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Humanizer.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\MailKit.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.AspNet.SignalR.Core.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.AspNet.SignalR.SystemWeb.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -33,13 +31,9 @@ E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.IdentityModel.Tokens.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.OpenApi.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.Owin.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.Owin.Host.SystemWeb.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.Owin.Security.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Microsoft.Win32.SystemEvents.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\MimeKit.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Newtonsoft.Json.dll
-E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Owin.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -103,3 +97,9 @@ E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\runtimes\u
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\AspNetCore.Http.Extensions.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\System.Reactive.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\System.Runtime.InteropServices.WindowsRuntime.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\WampSharp.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\WampSharp.AspNetCore.WebSockets.Server.dll
+E:\GradProjectV2\HealthCareSysAPI\HealthCareSysAPI\bin\Release\net6.0\WampSharp.WebSockets.dll

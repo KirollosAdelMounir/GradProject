@@ -311,7 +311,7 @@ namespace HealthCareSysAPI.Controllers
         [HttpGet("ShowFavorites")]
         public async Task<IActionResult> ShowFavorites(string userId)
         {
-            var favorites = _dbContext.Favorites.Where(x => x.UserID == userId);
+            var favorites = _dbContext.Favorites.Where(x => x.UserID == userId).ToList() ;
             foreach (var fav in favorites)
             {
                 var favDoc = _dbContext.Doctors.FirstOrDefault(x => x.DoctorID == fav.DoctorID);
